@@ -1,4 +1,15 @@
+def add (board):
+	for col in range (1,4):
+		for row in range (1,4):
+			if row-1 >= 0 and board[row-1][col] == board[row][col]:
+				board[row-1][col] *= 2
+				board[row][col] = 0
+				break
+
+	return board
+
 def move (board):
+
 	n = 4
 	for col in range (0,n):
 		for row in range (0,n):
@@ -12,7 +23,6 @@ def move (board):
 
 
 
-
 def Print (board):
 	for i in range (0,4):
 		for j in range (0,4):
@@ -21,6 +31,7 @@ def Print (board):
 
 board = [[0,0,0,2],[2,0,2,2],[0,4,32,4],[0,4,8,32]]
 Print(board)
+board = add(board)
 board = move(board)
 print
 print
