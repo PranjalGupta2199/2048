@@ -1,3 +1,4 @@
+import random
 def Print (board):
 	for i in range (0,4):
 		for j in range (0,4):
@@ -47,7 +48,18 @@ class Moves():
 		#board = self.move(board)
 		board = self.add(board)
 		board = self.move(board)
+		board = self.append(board)
 		return board
+
+	def append(self, board):
+		block = random.choice([2,4])
+		i,j = random.randint(0,4), random.randint(0,4)
+		while board[i][j] != 0:
+			i,j = random.randint(0,4), random.randint(0,4)
+		board[i][j] = block
+		return board
+
+
 
 
 board = [[8,4,0,2],[8,8,4,0],[0,0,0,0],[0,0,0,0]]
