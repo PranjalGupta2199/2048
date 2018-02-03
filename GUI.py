@@ -36,9 +36,9 @@ class MyWindow(Gtk.Window):
         for row in range (0,len(board)):
             for col in range (0,len(board)):
                     button = Gtk.Button(label = str(board[row][col]))
-                    grid.attach(button, row, col, 1, 1)
+                    grid.attach(button, col, row, 1, 1)
 
-board = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
+board = [[0,0,0,0],[0,0,0,0],[0,16,16,16],[16,16,16,16]]
 win = MyWindow()
 win.display_button(board)
 win.connect('delete-event', Gtk.main_quit)
