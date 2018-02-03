@@ -37,6 +37,8 @@ class MyWindow(Gtk.Window):
             for col in range (0,len(board)):
                     button = Gtk.Button(label = str(board[row][col]))
                     grid.attach(button, col, row, 1, 1)
+        grid.set_column_homogeneous(True)
+        grid.set_row_homogeneous(True)
 
 board = [[0,0,0,0],[0,0,0,0],[0,16,16,16],[16,16,16,16]]
 win = MyWindow()
