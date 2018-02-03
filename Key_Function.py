@@ -9,67 +9,64 @@ def Print (board):
 
 class Moves():
 	def __init__(self, direction):
-		if direction == "up": self.n1, self.n2 = 0, -1
-		elif direction == "down": self.n1, self.n2 = 0, 1
-		elif direction == "left": self.n1, self.n2 = -1, 0
-		elif direction == "right": self.n1, self.n2 = 1, 0
+		row,col = 0,0
+		if direction == "up": self.var1 , self.var2,self.n1, self.n2 = col, row, 0, -1
+		elif direction == "down": self.var1, self.var2 ,self.n1, self.n2 = col, row, 0, 1
+		elif direction == "left": self.var1, self.var2 ,self.n1, self.n2 = row, col, -1, 0
+		elif direction == "right": self.var1, self.var2, self.n1, self.n2 = row, col, 1, 0
 
 	def add (self, board):
-		for col in range (0,4): #n1 = 0 n2 = -1
-			row = 0
-			while row < 4:
+		for self.var1 in range (0,4): #n1 = 0 n2 = -1
+			for self.var2 in range(0,4):
 				try:
-					if row + self.n2 >= 0 and col + self.n1 >= 0 \
-					and board[row + self.n2][col + self.n1] == board[row][col]:
-						board[row + self.n2][col + self.n1] *= 2
-						board[row][col] = 0
-						row +=2
-						continue
+					if self.var2 + self.n2 >= 0 and self.var1 + self.n1 >= 0\
+					 and board[self.var2 + self.n2][self.var1 + self.n1] == board[self.var2][self.var1]:
+						board[self.var2 + self.n2][self.var1 + self.n1] *= 2
+						board[self.var2][self.var1] = 0
 
 				except:
 					pass
-				row += 1
 
 		return board
 
 	def move (self, board):
-		for col in range (0,4): #n1 = 0 n2 = -1
-			for row in range (0,4):
+		for self.var1 in range (0,4): #n1 = 0 n2 = -1
+			for self.var2 in range(0,4):
 				try:
-					if row + self.n2 >= 0 and col + self.n1 >= 0 \
-					and board[row + self.n2][col + self.n1] == 0 and board[row][col]  != 0:
-						board[row][col], board[row + self.n2][col + self.n1] = board[row + self.n2][col + self.n1], board[row][col]
+					if self.var2 + self.n2 >= 0 and self.var1 + self.n1 >= 0 \
+					and board[self.var2 + self.n2][self.var1 + self.n1] == 0 \
+					and board[self.var2][self.var1]  != 0:
+						board[self.var2][self.var1], board[self.var2 + self.n2][self.var1 + self.n1] \
+						= board[self.var2 + self.n2][self.var1 + self.n1], board[self.var2][self.var1]
 						board = self.move(board)
-					else:
-						pass
 				except:
 					pass
 		return board
 
 	def function(self, board):
-		#while self.move(board) != self.add(board):
-		#board = self.move(board)
-		board = self.add(board)
-		board = self.move(board)
-		board = self.append(board)
-		return board
+		if self.move(board) != board :
+			temp1 = self.add(self.move(board))
+			temp2 = self.add(self.move(temp1))
+			while temp1 != temp2:
+				temp1, temp2 = temp2, self.add(self.move(temp2))
+		else:
+			return self.move(self.add(board))
+		return temp1
+
 
 	def append(self, board):
 		block = random.choice([2,4])
 		i,j = random.randint(0,3), random.randint(0,3)
-		print i, j, board[i][j]
 		while board[i][j] != 0:
 			i,j = random.randint(0,3), random.randint(0,3)
-			print i, j, board[i][j]
-			print
 		board[i][j] = block
 		return board
 
 
 
 
-board = [[0,0,0,2],[0,0,0,2],[0,0,0,4],[0,0,0,4]]
+board = [[2,4,4,2],[2,0,0,2],[2,0,0,2],[2,0,0,2]]
 Print(board)
-down = Moves('down')
+down = Moves('left')
 board = down.function(board)
 Print(board)
