@@ -51,5 +51,3 @@ class MyWindow(Gtk.Window):
 
     def update_label_text(self):
         pass
-
-board = [[0 for i in range (4)] for j in range (4)]
