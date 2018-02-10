@@ -23,15 +23,16 @@ class Moves():
 				try:
 					if self.var2 + self.n2 >= 0 and self.var1 + self.n1 >= 0\
 					 and board[self.var2 + self.n2][self.var1 + self.n1] == board[self.var2][self.var1]:
-						board[self.var2 + self.n2][self.var1 + self.n1] *= 2
-						board[self.var2][self.var1] = 0
+						board[self.var2][self.var1] *= 2
+						board[self.var2 + self.n2][self.var1 + self.n1] = 0
 
 				except:
 					pass
 
 		return board
 
-	def move (self, board):	
+
+	def move (self, board):
 		for self.var1 in range (0,4): #n1 = 0 n2 = -1
 			for self.var2 in range(0,4):
 				try:
@@ -45,12 +46,16 @@ class Moves():
 					pass
 		return board
 
+
+
+
+
 	def function(self, board):
 		if self.move(board) != board :
-			temp1 = self.add(self.move(board))
-			temp2 = self.add(self.move(temp1))
+			temp1 = self.move(self.add(board))
+			temp2 = self.move(self.add(temp1))
 			while temp1 != temp2:
-				temp1, temp2 = temp2, self.add(self.move(temp2))
+				temp1, temp2 = temp2, self.move(self.add(temp2))
 		else:
 			return self.append(self.move(self.add(board)))
 		return self.append(temp1)
@@ -62,4 +67,5 @@ class Moves():
 		while board[i][j] != 0:
 			i, j = random.randint(0,3), random.randint(0,3)
 		board[i][j] = block
+		print block,
 		return board

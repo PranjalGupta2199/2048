@@ -18,7 +18,7 @@ class MyWindow(Gtk.Window):
         self.set_size_request(400,400)
         self.connect('delete-event', Gtk.main_quit)
         self.connect('key-press-event', self.on_key_press_event)
-        self.board = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[2,2,2,2]]
+        self.board = [[ 0 for i in range (4)] for j in range (4)]
 
 
     def display_button (self):
@@ -29,13 +29,20 @@ class MyWindow(Gtk.Window):
 
         for row in range (0,len(self.board)):
             for col in range (0,len(self.board)):
-                    button = Gtk.Button(label = str(self.board[row][col]))
+                    button = Gtk.Button()
                     MyWindow.l.append(button)
                     grid.attach(button, col, row + 1, 1, 1) # use relative positions
+
+
+                    text = self.board[row][col]
+                    if text == 0:
+                        text = " "
+                    button.set_label(str(text))
+
             MyWindow.ButtonList.append(MyWindow.l)
             MyWindow.l = []
 
-            
+
         grid.set_column_homogeneous(True)
         grid.set_column_spacing(10)
         grid.set_row_homogeneous(True)
@@ -54,9 +61,12 @@ class MyWindow(Gtk.Window):
         self.update_label_text()
 
     def update_label_text(self):
-        for i in range (0, 4):
-            for j in range (0,4 ):
-                MyWindow.ButtonList[i][j].set_label(str(self.board[i][j]))
+        for row in range (0, 4):
+            for col in range (0,4 ):
+                text = self.board[row][col]
+                if text == 0:
+                    text = " "
+                MyWindow.ButtonList[row][col].set_label(str(text))
 
 
 
