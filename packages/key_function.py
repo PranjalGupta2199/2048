@@ -31,7 +31,7 @@ class Moves():
 
 		return board
 
-	def move (self, board):
+	def move (self, board):	
 		for self.var1 in range (0,4): #n1 = 0 n2 = -1
 			for self.var2 in range(0,4):
 				try:
