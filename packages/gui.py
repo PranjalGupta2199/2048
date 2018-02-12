@@ -1,4 +1,5 @@
 import gi
+import time
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk
 from . import key_function as func
@@ -15,23 +16,33 @@ class MyWindow(Gtk.Window):
 
     def __init__(self):
         Gtk.Window.__init__(self, title = "2048 Game") # use super as it is used in python3
-        self.set_size_request(400,400)
+        self.set_size_request(400, 400)
         self.connect('delete-event', Gtk.main_quit)
         self.connect('key-press-event', self.on_key_press_event)
-        self.board = [[ 0 for i in range (4)] for j in range (4)]
+
+        self.grid = Gtk.Grid()
+        self.add(self.grid)
+
+        new_game_button = Gtk.Button(label = 'NEW GAME') # use button.set_label when developing UI in code
+        new_game_button.connect('clicked', self.on_mouse_clicked_event)
+        self.grid.attach(new_game_button, 2, 0, 2, 1)
+
+        #score_label = Gtk.
+
+        self.gen_board()
+
+
+    def gen_board(self):
+        temp = [[ 0 for i in range (4)] for j in range (4)]
+        self.board = up.append(up.append(temp))
 
 
     def display_button (self):
-        grid = Gtk.Grid()
-        self.add(grid)
-        button = Gtk.Button(label = 'NEW GAME') # use button.set_label when developing UI in code
-        grid.attach(button, 2, 0, 2, 1)
-
         for row in range (0,len(self.board)):
             for col in range (0,len(self.board)):
                     button = Gtk.Button()
                     MyWindow.l.append(button)
-                    grid.attach(button, col, row + 1, 1, 1) # use relative positions
+                    self.grid.attach(button, col, row + 1, 1, 1) # use relative positions
 
 
                     text = self.board[row][col]
@@ -43,22 +54,36 @@ class MyWindow(Gtk.Window):
             MyWindow.l = []
 
 
-        grid.set_column_homogeneous(True)
-        grid.set_column_spacing(10)
-        grid.set_row_homogeneous(True)
-        grid.set_row_spacing(10)
+        self.grid.set_column_homogeneous(True)
+        self.grid.set_column_spacing(10)
+        self.grid.set_row_homogeneous(True)
+        self.grid.set_row_spacing(10)
 
 
     def on_key_press_event(self, widget, event):
         keyname = Gdk.keyval_name(event.keyval)
 
-        if keyname == "Up":  board = up.function(self.board)
+        if keyname == "Up": board = up.function(self.board)
         elif keyname == "Down": board = down.function(self.board)
         elif keyname == "Right": board = right.function(self.board)
         elif keyname == "Left": board = left.function(self.board)
         else: pass
 
+        if self.game_lose():
+            self.gen_board()
+            print "YOU LOSE !"
+        elif self.game_win():
+            self.gen_board()
+            print "Congratulations YOU WIN !!"
+        else:
+            pass
         self.update_label_text()
+
+    def on_mouse_clicked_event(self, widget):
+        self.gen_board()
+        self.update_label_text()
+
+
 
     def update_label_text(self):
         for row in range (0, 4):
@@ -68,6 +93,27 @@ class MyWindow(Gtk.Window):
                     text = " "
                 MyWindow.ButtonList[row][col].set_label(str(text))
 
+    def game_win(self):
+        flag  = False
+        for element in self.board:
+            for j in range (len(element)):
+                if element[j] == 2048:
+                    flag = True
+        return flag
+
+    def game_lose(self):
+        for col in range (0,4):
+            for row in range (0,4):
+                for a in range (-1,2,2):
+                    if row + a >= 0 and col + a >= 0 :
+                        element = self.board[row][col]
+                        try :
+                            if element == self.board[row+a][col] or element == self.board[row][col+a]:
+                                return False
+                        except :
+                            pass
+        time.sleep(3)
+        return True
 
 
 '''

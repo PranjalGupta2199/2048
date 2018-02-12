@@ -67,5 +67,5 @@ class Moves():
 		while board[i][j] != 0:
 			i, j = random.randint(0,3), random.randint(0,3)
 		board[i][j] = block
-		print block,
+
 		return board
